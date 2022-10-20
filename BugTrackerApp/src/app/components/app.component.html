@@ -1,0 +1,18 @@
+﻿<div class="container" style="margin-top: 10px">
+  <ul
+    ngbNav
+    #nav="ngbNav"
+    [activeId]="active"
+    (activeIdChange)="onActiveIdChange($event)"
+    class="nav-tabs"
+    style="margin-bottom: 10px"
+  >
+    <li [ngbNavItem]="1">
+      <a ngbNavLink routerLink="/people">People</a>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink routerLink="/bugs">Bugs</a>
+    </li>
+  </ul>
+  <router-outlet></router-outlet>
+</div>

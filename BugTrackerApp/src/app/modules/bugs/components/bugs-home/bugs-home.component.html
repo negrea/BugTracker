@@ -1,0 +1,20 @@
+<ng-container *ngIf="error$ | async; let error">
+  <ngb-alert type="danger" [dismissible]="false">{{ error }}</ngb-alert>
+</ng-container>
+<button
+  type="button"
+  class="btn btn-primary"
+  style="margin-bottom: 10px"
+  (click)="onAddBug()"
+>
+  Add Bug
+</button>
+<bugs-table [bugs]="bugs$ | async" (clickBug)="onClickBug($event)"></bugs-table>
+<ng-template #bugForm let-modal>
+  <bug-form
+    [bug]="bug$ | async"
+    [people]="people$ | async"
+    (submitForm)="onSubmitBugForm($event)"
+    (closeForm)="onCloseBugForm()"
+  ></bug-form>
+</ng-template>

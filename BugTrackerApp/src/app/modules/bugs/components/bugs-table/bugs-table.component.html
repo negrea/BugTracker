@@ -1,0 +1,22 @@
+<div>
+  <table class="table table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Title</th>
+        <th>Creation Date</th>
+        <th>Modified Date</th>
+        <th>Status</th>
+        <th>Assigned To</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bug of bugs" (click)="onClickBug(bug)">
+        <td>{{ bug.title }}</td>
+        <td>{{ bug.creationDate }}</td>
+        <td>{{ bug.modifiedDate }}</td>
+        <td>{{ bug.status }}</td>
+        <td>{{ bug.personName }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

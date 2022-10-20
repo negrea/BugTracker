@@ -1,0 +1,22 @@
+<ng-container *ngIf="error$ | async; let error">
+  <ngb-alert type="danger" [dismissible]="false">{{ error }}</ngb-alert>
+</ng-container>
+<button
+  type="button"
+  class="btn btn-primary"
+  style="margin-bottom: 10px"
+  (click)="onAddPerson()"
+>
+  Add Person
+</button>
+<people-table
+  [people]="people$ | async"
+  (clickPerson)="onClickPerson($event)"
+></people-table>
+<ng-template #personForm let-modal>
+  <person-form
+    [person]="person$ | async"
+    (submitForm)="onSubmitPersonForm($event)"
+    (closeForm)="onClosePersonForm()"
+  ></person-form>
+</ng-template>

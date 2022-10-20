@@ -1,0 +1,41 @@
+<form [formGroup]="personForm" (ngSubmit)="onSubmit()">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add person</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="onClose()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <input id="id" type="hidden" formControlName="id" />
+    <div class="form-group">
+      <label for="first-name">First Name:</label>
+      <input
+        class="form-control"
+        id="first-name"
+        type="text"
+        formControlName="firstName"
+      />
+    </div>
+    <div class="form-group">
+      <label for="last-name">Last Name:</label>
+      <input
+        class="form-control"
+        id="last-name"
+        type="text"
+        formControlName="lastName"
+      />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="!personForm.valid"
+    >
+      Save
+    </button>
+  </div>
+</form>
