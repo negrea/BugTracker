@@ -52,7 +52,7 @@ From the solution folder run:
 
 	dotnet run --project '.\BugTracker.API\BugTracker.API.csproj'
 
-The API will be available at https://localhost:7073/index.html 
+The API will be available at https://localhost:7073/index.html displaying Swagger documentation page.
 
 ## Running the Angular application ##
 
