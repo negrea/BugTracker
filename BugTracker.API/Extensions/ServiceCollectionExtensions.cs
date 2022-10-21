@@ -7,7 +7,10 @@ using FluentValidation;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
 using System.Reflection;
 
 namespace BugTracker.API.Extensions

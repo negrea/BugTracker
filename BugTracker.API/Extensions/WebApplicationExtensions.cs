@@ -1,6 +1,9 @@
 ﻿using BugTracker.Core.ValueObjects;
 using FluentValidation;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
 using System.Net;
 
 namespace BugTracker.API.Extensions

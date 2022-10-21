@@ -2,7 +2,10 @@ using BugTracker.Application.People.Commands;
 using BugTracker.Application.People.Queries;
 using BugTracker.Core.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BugTracker.API.Controllers
 {

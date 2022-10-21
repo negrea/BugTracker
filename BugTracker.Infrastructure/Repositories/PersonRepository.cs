@@ -19,9 +19,12 @@ namespace BugTracker.Infrastructure.Repositories
         }
 
         public async Task<Person> GetAsync(Guid personId, CancellationToken cancellationToken = default)
+            => await _context.People.AsNoTracking().FirstOrDefaultAsync(p => p.Id == personId, cancellationToken);
+
+        public async Task<Person> FindAsync(Guid personId, CancellationToken cancellationToken = default)
             => await _context.People.FindAsync(new object[] { personId }, cancellationToken);
 
-        public async Task<Person> GetAsync(string firstName, string lastName, CancellationToken cancellationToken = default)
+        public async Task<Person> GetByNameAsync(string firstName, string lastName, CancellationToken cancellationToken = default)
             => await _context.People.AsNoTracking().FirstOrDefaultAsync(p => p.FirstName == firstName && p.LastName == lastName, cancellationToken);
 
         public Task<List<Person>> GetAllAsync(CancellationToken cancellationToken = default)

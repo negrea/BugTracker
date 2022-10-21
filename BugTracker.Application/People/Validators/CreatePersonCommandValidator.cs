@@ -18,7 +18,7 @@ namespace BugTracker.Application.People.Validators
             {
                 RuleFor(c => new { c.FirstName, c.LastName }).MustAsync(async (name, cancellationToken) =>
                 {
-                    var duplicatePerson = await _personRepository.GetAsync(name.FirstName, name.LastName, cancellationToken);
+                    var duplicatePerson = await _personRepository.GetByNameAsync(name.FirstName, name.LastName, cancellationToken);
                     return duplicatePerson == null;
                 }).WithMessage("A person with that name already exists.");
             });

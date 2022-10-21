@@ -6,7 +6,6 @@ namespace BugTracker.Core.Entities
     {
         public string FirstName { get; init; }
         public string LastName { get; init; }
-
         public virtual List<Bug> Bugs { get; set; }
 
         public Person(string firstName, string lastName)

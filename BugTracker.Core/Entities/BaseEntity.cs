@@ -5,13 +5,12 @@ namespace BugTracker.Core.Entities
 {
     public class BaseEntity : IBaseEntity
     {
-        public Guid Id { get; private set; }
-        public DateTime CreationDate { get; private set; }
+        public Guid Id { get; set; }
+        public DateTime CreationDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
 
         public BaseEntity()
         {
-            Id = Guid.NewGuid();
             CreationDate = DateTime.Now;
         }
     }

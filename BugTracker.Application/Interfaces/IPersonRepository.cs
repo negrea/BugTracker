@@ -9,7 +9,8 @@ namespace BugTracker.Application.Interfaces
     public interface IPersonRepository : IDisposable
     {
         Task<Person> GetAsync(Guid personId, CancellationToken cancellationToken = default);
-        Task<Person> GetAsync(string firstName, string lastName, CancellationToken cancellationToken = default);
+        Task<Person> FindAsync(Guid personId, CancellationToken cancellationToken = default);
+        Task<Person> GetByNameAsync(string firstName, string lastName, CancellationToken cancellationToken = default);
         Task<List<Person>> GetAllAsync(CancellationToken cancellationToken = default);
         void Create(Person person);
         Task SaveChangesAsync(CancellationToken cancellationToken = default);

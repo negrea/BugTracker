@@ -14,9 +14,8 @@ namespace BugTracker.Core.Entities
     {
         public string Title { get; init; }
         public string Description { get; init; }
-        public BugStatus Status { get; private set; }
+        public BugStatus Status { get; init; }
         public Guid? PersonId { get; init; }
-
         public virtual Person Person { get; set; }
 
         public Bug(string title, string description, Guid? personId = null) : base()

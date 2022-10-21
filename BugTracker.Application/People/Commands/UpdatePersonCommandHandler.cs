@@ -24,7 +24,7 @@ namespace BugTracker.Application.People.Commands
 
         public async Task<Person> Handle(UpdatePersonCommand command, CancellationToken cancellationToken)
         {
-            var person = await _personRepository.GetAsync(command.Id, cancellationToken);
+            var person = await _personRepository.FindAsync(command.Id, cancellationToken);
             if (person == null)
             {
                 throw new BugTrackerException($"Person not found.", HttpStatusCode.NotFound);

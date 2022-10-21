@@ -3,7 +3,10 @@ using BugTracker.Application.Bugs.DTOs;
 using BugTracker.Application.Bugs.Queries;
 using BugTracker.Core.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BugTracker.API.Controllers
 {
@@ -37,7 +40,7 @@ namespace BugTracker.API.Controllers
         /// </summary>
         /// <returns>A newly created Bug</returns>
         /// <response code="201">Returns the newly created Bug</response>
-        /// <response code="400">If the bug has an invalid Title, Description or PersonId</response>
+        /// <response code="400">If the bug has an invalid Title or PersonId</response>
         [HttpPost("bugs")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
