@@ -7,9 +7,10 @@ import { AppComponent } from './components/app.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NavBarComponent } from './components/app-nav-bar/nav-bar.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, NavBarComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Person } from '../models/person.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CorePeopleService {
   baseUrl = '/api/people-management';
 

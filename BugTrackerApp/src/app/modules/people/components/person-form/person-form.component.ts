@@ -24,7 +24,7 @@ export class PersonFormComponent implements OnInit, OnChanges {
   @Output() submitForm = new EventEmitter<FormResult<Person>>();
   @Output() closeForm = new EventEmitter();
 
-  mode = FormMode.Create;
+  public mode = FormMode.Create;
   personForm: FormGroup;
 
   constructor(private _formBuilder: FormBuilder) {}

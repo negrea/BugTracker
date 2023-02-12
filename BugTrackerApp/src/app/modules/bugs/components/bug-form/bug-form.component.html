@@ -51,7 +51,7 @@
       >
         <option [ngValue]="null" disabled>Choose a person</option>
         <option *ngFor="let person of people" [ngValue]="person.id">
-          {{ person.firstName }} {{ person.lastName }}
+          {{ person | personFullName }}
         </option>
       </select>
     </div>

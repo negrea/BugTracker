@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CorePeopleService } from './services/core-people.service';
+import { PersonFullNamePipe } from './pipes/full-name.pipe';
 
 @NgModule({
   imports: [],
-  declarations: [],
-  providers: [CorePeopleService],
-  exports: [],
+  declarations: [PersonFullNamePipe],
+  providers: [],
+  exports: [PersonFullNamePipe],
 })
 export class SharedPeopleModule {}

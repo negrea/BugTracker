@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   OnInit,
@@ -22,14 +23,16 @@ import {
   selectPeople,
   selectPerson,
 } from '../../store/people.selectors';
+import { PersonFormComponent } from '../person-form/person-form.component';
 
 @Component({
   selector: 'people-home',
   templateUrl: './people-home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PeopleHomeComponent implements OnInit {
-  @ViewChild('personForm') personForm: TemplateRef<any>;
+export class PeopleHomeComponent implements OnInit, AfterViewInit {
+  @ViewChild('personForm') personForm: TemplateRef<PersonFormComponent>;
+
   personFormModal: NgbModalRef;
 
   people$: Observable<Person[]>;
@@ -44,6 +47,10 @@ export class PeopleHomeComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(getPeople());
+  }
+
+  ngAfterViewInit() {
+    debugger;
   }
 
   onAddPerson() {
