@@ -7,4 +7,4 @@ import { PersonFullNamePipe } from './pipes/full-name.pipe';
   providers: [],
   exports: [PersonFullNamePipe],
 })
-export class SharedPeopleModule {}
+export class SharedModule {}

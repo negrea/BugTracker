@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -15,18 +16,21 @@ import {
 } from '@angular/forms';
 import { BugForm } from '../../models/bug-form.model';
 import { Bug } from '../../models/bug.model';
-import { FormMode } from '../../../shared-forms/models/form-mode.model';
+import { FormMode } from '../../../shared/models/form-mode.model';
 import { Status } from '../../models/status.model';
-import { FormResult } from 'src/app/modules/shared-forms/models/form-result.model';
-import { Person } from 'src/app/modules/shared-people/models/person.model';
-import { FormUtils } from 'src/app/modules/shared-forms';
+import { FormResult } from 'src/app/modules/shared/models/form-result.model';
+import { Person } from 'src/app/modules/shared/models/person.model';
+import { FormUtils } from 'src/app/modules/shared';
+import { BugsService } from '../../services/bugs.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'bug-form',
   templateUrl: './bug-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BugFormComponent implements OnInit, OnChanges {
+// export class BugFormComponent implements OnInit, OnChanges {
+export class BugFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() bug: Bug | null;
   @Input() people: Person[];
 
@@ -38,7 +42,17 @@ export class BugFormComponent implements OnInit, OnChanges {
   statuses = Object.keys(Status);
   bugForm: FormGroup;
 
-  constructor(private _formBuilder: FormBuilder) {}
+  private subscription: Subscription = new Subscription();
+
+  constructor(private _formBuilder: FormBuilder) {
+    // constructor(
+    //   private _formBuilder: FormBuilder,
+    //   private _bugService: BugsService
+    // ) {
+    // this.subscription.add(
+    //   this._bugService.bug$.subscribe((bug) => (this.bug = bug))
+    // );
+  }
 
   ngOnInit() {
     this.bugForm = this._formBuilder.group({
@@ -82,5 +96,9 @@ export class BugFormComponent implements OnInit, OnChanges {
 
   onClose() {
     this.closeForm.emit();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

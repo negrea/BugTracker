@@ -21,14 +21,14 @@ export const peopleReducer = createReducer(
   on(PeopleActions.onGetPeople, (state, action): PeopleState => {
     return {
       ...state,
-      people: Object.assign([], action.people),
+      people: [...action.people],
     };
   }),
   on(
     PeopleActions.setPerson,
     (state, action): PeopleState => ({
       ...state,
-      person: action.person == null ? null : Object.assign({}, action.person),
+      person: action.person == null ? null : { ...action.person },
     })
   ),
   on(PeopleActions.setError, (state, action): PeopleState => {

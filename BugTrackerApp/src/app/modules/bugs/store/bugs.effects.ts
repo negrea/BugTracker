@@ -4,28 +4,28 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { BugsActions } from '.';
 import { BugsService } from '../services/bugs.service';
-import { CorePeopleService } from '../../shared-people/services/core-people.service';
+import { PeopleService } from '../../people/services/people.service';
 
 @Injectable()
 export class BugsEffects {
   constructor(
-    private actions$: Actions,
-    private bugsService: BugsService,
-    private peopleService: CorePeopleService
+    private _actions$: Actions,
+    private _bugsService: BugsService,
+    private _peopleService: PeopleService
   ) {}
 
   initBugs$ = createEffect(() => {
-    return this.actions$.pipe(
+    return this._actions$.pipe(
       ofType(BugsActions.init),
       map((_) => BugsActions.getBugs())
     );
   });
 
   getBugs$ = createEffect(() => {
-    return this.actions$.pipe(
+    return this._actions$.pipe(
       ofType(BugsActions.getBugs),
       switchMap((_) => {
-        return this.bugsService.getBugs().pipe(
+        return this._bugsService.getBugs().pipe(
           map((bugs) => BugsActions.onGetBugs({ bugs })),
           catchError((errorResponse) =>
             of(BugsActions.setError({ errorResponse }))
@@ -36,10 +36,10 @@ export class BugsEffects {
   });
 
   initPeople$ = createEffect(() => {
-    return this.actions$.pipe(
+    return this._actions$.pipe(
       ofType(BugsActions.init),
       switchMap((_) => {
-        return this.peopleService.getPeople().pipe(
+        return this._peopleService.getPeople().pipe(
           map((people) => BugsActions.onGetPeople({ people })),
           catchError((errorResponse) =>
             of(BugsActions.setError({ errorResponse }))
@@ -50,10 +50,10 @@ export class BugsEffects {
   });
 
   createBug$ = createEffect(() => {
-    return this.actions$.pipe(
+    return this._actions$.pipe(
       ofType(BugsActions.createBug),
       switchMap((action) => {
-        return this.bugsService.createBug(action.bug).pipe(
+        return this._bugsService.createBug(action.bug).pipe(
           map((_) => BugsActions.getBugs()),
           catchError((errorResponse) =>
             of(BugsActions.setError({ errorResponse }))
@@ -64,10 +64,10 @@ export class BugsEffects {
   });
 
   updateBug$ = createEffect(() => {
-    return this.actions$.pipe(
+    return this._actions$.pipe(
       ofType(BugsActions.updateBug),
       switchMap((action) => {
-        return this.bugsService.updateBug(action.bug).pipe(
+        return this._bugsService.updateBug(action.bug).pipe(
           map((_) => BugsActions.getBugs()),
           catchError((errorResponse) =>
             of(BugsActions.setError({ errorResponse }))

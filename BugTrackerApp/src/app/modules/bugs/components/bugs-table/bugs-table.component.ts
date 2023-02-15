@@ -14,6 +14,7 @@ import { Bug } from '../../models/bug.model';
 })
 export class BugsTableComponent {
   @Input() bugs: Bug[];
+
   @Output() clickBug = new EventEmitter<Bug>();
 
   onClickBug(bug: Bug) {

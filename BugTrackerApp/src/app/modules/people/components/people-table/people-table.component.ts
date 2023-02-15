@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { Person } from 'src/app/modules/shared-people/models/person.model';
+import { Person } from 'src/app/modules/shared/models/person.model';
 @Component({
   selector: 'people-table',
   templateUrl: './people-table.component.html',
@@ -13,10 +13,13 @@ import { Person } from 'src/app/modules/shared-people/models/person.model';
 })
 export class PeopleTableComponent {
   @Input() people: Person[];
-
   @Output() clickPerson = new EventEmitter<Person>();
 
   onClickPerson(person: Person) {
     this.clickPerson.emit(person);
   }
+
+  // setPeople(people: Person[]) {
+  //   this.people = [...people];
+  // }
 }

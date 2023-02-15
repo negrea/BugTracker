@@ -1,13 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Person } from '../../shared-people/models/person.model';
-import { CorePeopleService } from '../../shared-people/services/core-people.service';
+import { Person } from '../../shared/models/person.model';
 
-@Injectable()
-export class PeopleService extends CorePeopleService {
-  constructor(_httpClient: HttpClient) {
-    super(_httpClient);
+@Injectable({
+  providedIn: 'root',
+})
+export class PeopleService {
+  baseUrl = '/api/people-management';
+
+  constructor(private _httpClient: HttpClient) {}
+
+  getPeople(): Observable<Person[]> {
+    return this._httpClient.get<Person[]>(`${this.baseUrl}/people`);
   }
 
   createPerson(person: Person): Observable<Person> {

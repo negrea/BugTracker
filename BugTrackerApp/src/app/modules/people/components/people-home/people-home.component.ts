@@ -2,16 +2,18 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { FormMode } from 'src/app/modules/shared-forms/models/form-mode.model';
-import { FormResult } from 'src/app/modules/shared-forms/models/form-result.model';
-import { Person } from 'src/app/modules/shared-people/models/person.model';
+import { Observable, Subscription } from 'rxjs';
+import { FormMode } from 'src/app/modules/shared/models/form-mode.model';
+import { FormResult } from 'src/app/modules/shared/models/form-result.model';
+import { Person } from 'src/app/modules/shared/models/person.model';
+import { PeopleService } from '../../services/people.service';
 import {
   createPerson,
   getPeople,
@@ -23,6 +25,7 @@ import {
   selectPeople,
   selectPerson,
 } from '../../store/people.selectors';
+import { PeopleTableComponent } from '../people-table/people-table.component';
 import { PersonFormComponent } from '../person-form/person-form.component';
 
 @Component({
@@ -30,16 +33,19 @@ import { PersonFormComponent } from '../person-form/person-form.component';
   templateUrl: './people-home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PeopleHomeComponent implements OnInit, AfterViewInit {
-  @ViewChild('personForm') personForm: TemplateRef<PersonFormComponent>;
-
-  personFormModal: NgbModalRef;
+// export class PeopleHomeComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PeopleHomeComponent implements OnInit, OnDestroy {
+  @ViewChild('personForm') private personForm: TemplateRef<PersonFormComponent>;
+  // @ViewChild(PeopleTableComponent)
+  // private peopleTableComponent: PeopleTableComponent;
+  private personFormModal: NgbModalRef;
+  private subscription: Subscription = new Subscription();
 
   people$: Observable<Person[]>;
   person$: Observable<Person>;
   error$: Observable<string>;
 
-  constructor(private store: Store, private modalService: NgbModal) {
+  constructor(private store: Store, private _modalService: NgbModal) {
     this.people$ = this.store.select(selectPeople);
     this.person$ = this.store.select(selectPerson);
     this.error$ = this.store.select(selectError);
@@ -49,20 +55,24 @@ export class PeopleHomeComponent implements OnInit, AfterViewInit {
     this.store.dispatch(getPeople());
   }
 
-  ngAfterViewInit() {
-    debugger;
-  }
+  // ngAfterViewInit() {
+  //   this.subscription.add(
+  //     this.people$.subscribe((people) => {
+  //       this.peopleTableComponent.setPeople(people);
+  //     })
+  //   );
+  // }
 
   onAddPerson() {
     this.store.dispatch(setPerson({ person: null }));
 
-    this.personFormModal = this.modalService.open(this.personForm);
+    this.personFormModal = this._modalService.open(this.personForm);
   }
 
   onClickPerson(person: Person) {
     this.store.dispatch(setPerson({ person }));
 
-    this.personFormModal = this.modalService.open(this.personForm);
+    this.personFormModal = this._modalService.open(this.personForm);
   }
 
   onSubmitPersonForm(result: FormResult<Person>) {
@@ -76,5 +86,9 @@ export class PeopleHomeComponent implements OnInit, AfterViewInit {
 
   onClosePersonForm() {
     this.personFormModal.close();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

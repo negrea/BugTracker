@@ -1,4 +1,4 @@
-import { Person } from '../../shared-people/models/person.model';
+import { Person } from '../../shared/models/person.model';
 
 export interface PeopleState {
   people: Person[];

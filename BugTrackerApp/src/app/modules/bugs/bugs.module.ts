@@ -11,8 +11,7 @@ import { BugsTableComponent } from './components/bugs-table/bugs-table.component
 import { BugsHomeComponent } from './components/bugs-home/bugs-home.component';
 import { BugsService } from './services/bugs.service';
 import { BugFormComponent } from './components/bug-form/bug-form.component';
-import { SharedPeopleModule } from '../shared-people/shared-people.module';
-import { SharedFormsModule } from '../shared-forms/shared-forms.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -20,8 +19,7 @@ import { SharedFormsModule } from '../shared-forms/shared-forms.module';
     BugsRoutingModule,
     ReactiveFormsModule,
     NgbModule,
-    SharedPeopleModule,
-    SharedFormsModule,
+    SharedModule,
     StoreModule.forFeature('bugsState', bugsReducer),
     EffectsModule.forFeature([BugsEffects]),
   ],

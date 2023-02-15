@@ -8,15 +8,15 @@ import { PeopleService } from '../services/people.service';
 @Injectable()
 export class PeopleEffects {
   constructor(
-    private actions$: Actions,
-    private peopleService: PeopleService
+    private _actions$: Actions,
+    private _peopleService: PeopleService
   ) {}
 
   getPeople$ = createEffect(() => {
-    return this.actions$.pipe(
+    return this._actions$.pipe(
       ofType(PeopleActions.getPeople),
       switchMap((_) => {
-        return this.peopleService.getPeople().pipe(
+        return this._peopleService.getPeople().pipe(
           map((people) => PeopleActions.onGetPeople({ people })),
           catchError((errorResponse) =>
             of(PeopleActions.setError({ errorResponse }))
@@ -27,10 +27,10 @@ export class PeopleEffects {
   });
 
   createPerson$ = createEffect(() => {
-    return this.actions$.pipe(
+    return this._actions$.pipe(
       ofType(PeopleActions.createPerson),
       switchMap((action) => {
-        return this.peopleService.createPerson(action.person).pipe(
+        return this._peopleService.createPerson(action.person).pipe(
           map((_) => PeopleActions.getPeople()),
           catchError((errorResponse) =>
             of(PeopleActions.setError({ errorResponse }))
@@ -41,10 +41,10 @@ export class PeopleEffects {
   });
 
   updatePerson$ = createEffect(() => {
-    return this.actions$.pipe(
+    return this._actions$.pipe(
       ofType(PeopleActions.updatePerson),
       switchMap((action) => {
-        return this.peopleService.updatePerson(action.person).pipe(
+        return this._peopleService.updatePerson(action.person).pipe(
           map((_) => PeopleActions.getPeople()),
           catchError((errorResponse) =>
             of(PeopleActions.setError({ errorResponse }))

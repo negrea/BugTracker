@@ -2,7 +2,6 @@ import { ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { PeopleHomeComponent } from './people-home.component';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { PeopleState } from '../../store/people-state.model';
-import { Store } from '@ngrx/store';
 import {
   createPerson,
   getPeople,
@@ -17,12 +16,9 @@ import {
   selectPerson,
 } from '../../store/people.selectors';
 import { By } from '@angular/platform-browser';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PersonFormComponent } from '../person-form/person-form.component';
-import {
-  NgbActiveModal,
-  NgbModal,
-  NgbModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('PeopleHomeComponent', () => {
   const initialState: PeopleState = {
@@ -33,21 +29,14 @@ describe('PeopleHomeComponent', () => {
 
   let store: MockStore<PeopleState>;
   let service: NgbModal;
-  // beforeEach(async () => {
-  //   await TestBed.configureTestingModule({
-  //     declarations: [PeopleHomeComponent, PeopleTableComponent],
-  //     providers: [
-  //       provideMockStore({ initialState }),
-  //       { provide: ComponentFixtureAutoDetect, useValue: true },
-  //     ],
-  //   }).compileComponents();
-
-  //   store = TestBed.inject(MockStore<PeopleState>);
-  // });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PeopleHomeComponent, PeopleTableComponent],
+      declarations: [
+        PeopleHomeComponent,
+        PeopleTableComponent,
+        PersonFormComponent,
+      ],
       providers: [
         provideMockStore({
           selectors: [
@@ -73,7 +62,7 @@ describe('PeopleHomeComponent', () => {
         }),
         { provide: ComponentFixtureAutoDetect, useValue: true },
       ],
-      imports: [NgbModule],
+      imports: [NgbModule, ReactiveFormsModule],
     }).compileComponents();
 
     store = TestBed.inject(MockStore<PeopleState>);
@@ -101,27 +90,6 @@ describe('PeopleHomeComponent', () => {
     ]);
   });
 
-  // it('should bind person to the PersonFormComponent when selected', () => {
-  //   spyOn(service, 'open').and.callThrough();
-  //   const person = { id: '1', firstName: 'Test', lastName: 'Person' };
-  //   // const myModal = service.open(PersonFormComponent);
-  //   const fixture = TestBed.createComponent(PeopleHomeComponent);
-  //   const peopleHome = fixture.componentInstance;
-  //   peopleHome.onClickPerson(person);
-
-  //   expect(service.open).toHaveBeenCalled();
-
-  //   const personForm = fixture.debugElement.query(
-  //     By.directive(PersonFormComponent)
-  //   ).componentInstance;
-
-  //   expect(personForm.person).toEqual({
-  //     id: '1',
-  //     firstName: 'Test',
-  //     lastName: 'User',
-  //   });
-  // });
-
   it('should select people data from the store', () => {
     const storeDispatch = spyOn(store, 'select').and.callThrough();
 
@@ -142,13 +110,24 @@ describe('PeopleHomeComponent', () => {
     expect(storeDispatch).toHaveBeenCalledWith(getPeople());
   });
 
-  it(`should dispatch ${setPerson.type} onClickPerson`, () => {
+  it(`should dispatch ${setPerson.type} onAddPerson and open the PersonFormComponent as a modal`, () => {
     const storeDispatch = spyOn(store, 'dispatch').and.callThrough();
-    const person = { id: '1', firstName: 'Test', lastName: 'Person' };
+    const serviceOpen = spyOn(service, 'open').and.callThrough();
 
-    // const component =
-    //   TestBed.createComponent(PeopleHomeComponent).componentInstance;
-    // component.onClickPerson(person);
+    const fixture = TestBed.createComponent(PeopleHomeComponent);
+    const addPersonBtn = fixture.debugElement.query(By.css('#add-person'));
+    addPersonBtn.triggerEventHandler('click');
+
+    expect(storeDispatch).toHaveBeenCalledTimes(2);
+    expect(storeDispatch).toHaveBeenCalledWith(setPerson({ person: null }));
+    // Ideally we want to test that it was called with the correct TemplateRef
+    expect(serviceOpen).toHaveBeenCalledTimes(1);
+  });
+
+  it(`should dispatch ${setPerson.type} onClickPerson and open the PersonFormComponent as a modal`, () => {
+    const person = { id: '1', firstName: 'Test', lastName: 'Person' };
+    const storeDispatch = spyOn(store, 'dispatch').and.callThrough();
+    const serviceOpen = spyOn(service, 'open').and.callThrough();
 
     const fixture = TestBed.createComponent(PeopleHomeComponent);
     const peopleTable = fixture.debugElement.query(
@@ -158,25 +137,16 @@ describe('PeopleHomeComponent', () => {
 
     expect(storeDispatch).toHaveBeenCalledTimes(2);
     expect(storeDispatch).toHaveBeenCalledWith(setPerson({ person }));
-  });
-
-  it(`should dispatch ${setPerson.type} onAddPerson`, () => {
-    const storeDispatch = spyOn(store, 'dispatch').and.callThrough();
-
-    const component =
-      TestBed.createComponent(PeopleHomeComponent).componentInstance;
-    component.onAddPerson();
-
-    expect(storeDispatch).toHaveBeenCalledTimes(2);
-    expect(storeDispatch).toHaveBeenCalledWith(setPerson({ person: null }));
+    // Ideally we want to test that it was called with the correct TemplateRef
+    expect(serviceOpen).toHaveBeenCalledTimes(1);
   });
 
   it(`should dispatch ${createPerson.type} onSubmitPersonForm when FormMode is Create`, () => {
-    const storeDispatch = spyOn(store, 'dispatch').and.callThrough();
     const person = { id: '1', firstName: 'Test', lastName: 'Person' };
+    const storeDispatch = spyOn(store, 'dispatch').and.callThrough();
 
-    const component =
-      TestBed.createComponent(PeopleHomeComponent).componentInstance;
+    const fixture = TestBed.createComponent(PeopleHomeComponent);
+    const component = fixture.componentInstance;
     component.onAddPerson();
     component.onSubmitPersonForm({
       value: person,

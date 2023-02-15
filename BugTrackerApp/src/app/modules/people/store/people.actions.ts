@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Person } from '../../shared-people/models/person.model';
+import { Person } from '../../shared/models/person.model';
 
 export const getPeople = createAction('[People] Get people');
 

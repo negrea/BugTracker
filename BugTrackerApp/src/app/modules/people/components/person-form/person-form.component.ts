@@ -8,10 +8,10 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormUtils } from 'src/app/modules/shared-forms';
-import { FormMode } from 'src/app/modules/shared-forms/models/form-mode.model';
-import { FormResult } from 'src/app/modules/shared-forms/models/form-result.model';
-import { Person } from 'src/app/modules/shared-people/models/person.model';
+import { FormUtils } from 'src/app/modules/shared';
+import { FormMode } from 'src/app/modules/shared/models/form-mode.model';
+import { FormResult } from 'src/app/modules/shared/models/form-result.model';
+import { Person } from 'src/app/modules/shared/models/person.model';
 
 @Component({
   selector: 'person-form',
@@ -24,8 +24,8 @@ export class PersonFormComponent implements OnInit, OnChanges {
   @Output() submitForm = new EventEmitter<FormResult<Person>>();
   @Output() closeForm = new EventEmitter();
 
-  public mode = FormMode.Create;
   personForm: FormGroup;
+  private mode = FormMode.Create;
 
   constructor(private _formBuilder: FormBuilder) {}
 

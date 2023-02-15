@@ -10,22 +10,17 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { BugForm } from '../../models/bug-form.model';
 import { Bug } from '../../models/bug.model';
-import { FormMode } from '../../../shared-forms/models/form-mode.model';
-import {
-  clearError,
-  createBug,
-  init,
-  setBug,
-  updateBug,
-} from '../../store/bugs.actions';
+import { FormMode } from '../../../shared/models/form-mode.model';
+import { createBug, init, setBug, updateBug } from '../../store/bugs.actions';
 import {
   selectBug,
   selectBugs,
   selectError,
   selectPeople,
 } from '../../store/bugs.selectors';
-import { FormResult } from 'src/app/modules/shared-forms/models/form-result.model';
-import { Person } from 'src/app/modules/shared-people/models/person.model';
+import { FormResult } from 'src/app/modules/shared/models/form-result.model';
+import { Person } from 'src/app/modules/shared/models/person.model';
+import { BugsService } from '../../services/bugs.service';
 
 @Component({
   selector: 'bugs-home',
@@ -34,14 +29,19 @@ import { Person } from 'src/app/modules/shared-people/models/person.model';
 })
 export class BugsHomeComponent implements OnInit {
   @ViewChild('bugForm') bugForm: TemplateRef<any>;
-  bugFormModal: NgbModalRef;
 
   people$: Observable<Person[]>;
   bugs$: Observable<Bug[]>;
   bug$: Observable<Bug>;
   error$: Observable<string>;
+  private bugFormModal: NgbModalRef;
 
   constructor(private store: Store, private _modalService: NgbModal) {
+    // constructor(
+    //   private store: Store,
+    //   private _modalService: NgbModal,
+    //   private _bugsService: BugsService
+    // ) {
     this.people$ = this.store.select(selectPeople);
     this.bugs$ = this.store.select(selectBugs);
     this.bug$ = this.store.select(selectBug);
@@ -59,6 +59,7 @@ export class BugsHomeComponent implements OnInit {
 
   onClickBug(bug: Bug) {
     this.store.dispatch(setBug({ bug }));
+    // this._bugsService.setBug(bug);
     this.bugFormModal = this._modalService.open(this.bugForm);
   }
 

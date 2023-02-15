@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { BugsState } from './bugs-state.model';
 import { BugsActions } from './index';
 
-let defaultState: BugsState = {
+const defaultState: BugsState = {
   bugs: [],
   bug: null,
   people: [],
@@ -22,19 +22,19 @@ export const bugsReducer = createReducer(
   on(BugsActions.onGetBugs, (state, action): BugsState => {
     return {
       ...state,
-      bugs: Object.assign([], action.bugs),
+      bugs: [...action.bugs],
     };
   }),
   on(BugsActions.onGetPeople, (state, action): BugsState => {
     return {
       ...state,
-      people: Object.assign([], action.people),
+      people: [...action.people],
     };
   }),
   on(BugsActions.setBug, (state, action): BugsState => {
     return {
       ...state,
-      bug: action.bug == null ? null : Object.assign({}, action.bug),
+      bug: action.bug == null ? null : { ...action.bug },
     };
   }),
   on(
